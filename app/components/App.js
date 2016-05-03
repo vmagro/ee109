@@ -6,6 +6,7 @@ const styles = require('styles/app.scss')
 
 const SignupForm = require('./SignupForm')
 const Queue = require('./Queue')
+const CurrentStatus = require('./CurrentStatus')
 
 const helpRef = new Firebase('https://ee109.firebaseio.com/help')
 const checkoffRef = new Firebase('https://ee109.firebaseio.com/checkoff')
@@ -28,6 +29,7 @@ const App = React.createClass({
         <div>
           <h1>https://vinnie.io/ee109</h1>
           <SignupForm onSubmit={this.onSubmit}/>
+          <CurrentStatus uid={this.props.auth.uid} help={this.state.helpQueue} checkoff={this.state.checkoffQueue} />
           <div className={styles.queueWrapper}>
             <div className={styles.queue}>
                 <h2>Help Queue</h2>
