@@ -7,8 +7,9 @@ const styles = require('styles/app.scss')
 const SignupForm = require('./SignupForm')
 const Queue = require('./Queue')
 
-var helpRef = new Firebase('https://ee109.firebaseio.com/help')
-var checkoffRef = new Firebase('https://ee109.firebaseio.com/checkoff')
+const helpRef = new Firebase('https://ee109.firebaseio.com/help')
+const checkoffRef = new Firebase('https://ee109.firebaseio.com/checkoff')
+const usersRef = new Firebase('https://ee109.firebaseio.com/users');
 
 const App = React.createClass({
   mixins: [ReactFireMixin],
@@ -16,38 +17,63 @@ const App = React.createClass({
   componentWillMount: function () {
     this.bindAsArray(helpRef, 'helpQueue');
     this.bindAsArray(checkoffRef, 'checkoffQueue');
-    this.setState({
-      admin: true
-    });
+    this.bindAsObject(usersRef, 'users');
   },
 
   render: function() {
-    return (
-      <div>
-        <SignupForm onSubmit={this.onSubmit}/>
-        <div className={styles.queueWrapper}>
-          <div className={styles.queue}>
-              <h2>Help Queue</h2>
-              <Queue entries={this.state.helpQueue} admin={this.state.admin} onDelete={this._deleteHelp}/>
-          </div>
-          <div className={styles.queue}>
-              <h2>Check Off Queue</h2>
-              <Queue entries={this.state.checkoffQueue} admin={this.state.admin} onDelete={this._deleteCheckoff}/>
+    // already created an account, show normal interface
+    if (this.state.users && this.state.users[this.props.auth.uid]) {
+      const isAdmin = this.state.users[this.props.auth.uid].admin;
+      return (
+        <div>
+          <SignupForm onSubmit={this.onSubmit}/>
+          <div className={styles.queueWrapper}>
+            <div className={styles.queue}>
+                <h2>Help Queue</h2>
+                <Queue entries={this.state.helpQueue}
+                       admin={isAdmin}
+                       onDelete={this._deleteHelp}
+                       uid={this.props.auth.uid}/>
+            </div>
+            <div className={styles.queue}>
+                <h2>Check Off Queue</h2>
+                <Queue entries={this.state.checkoffQueue}
+                       admin={isAdmin}
+                       onDelete={this._deleteCheckoff}
+                       uid={this.props.auth.uid}/>
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
+    // new user, ask for their name first
+    else {
+      return (
+        <div>
+          <input placeholder="Your name" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})}/>
+          <button onClick={this._submitName}>Login</button>
+        </div>
+      )
+    }
   },
 
   onSubmit: function(form) {
     let entry = {
-      name: form.name
+      name: this.state.users[this.props.auth.uid].name,
+      uid: this.props.auth.uid
     }
     if (form.help) {
       helpRef.push(entry);
     } else {
       checkoffRef.push(entry);
     }
+  },
+
+  _submitName: function() {
+    usersRef.child(this.props.auth.uid).set({
+      name: this.state.name,
+      admin: false
+    })
   },
 
   _deleteHelp: function (entry) {
@@ -58,5 +84,9 @@ const App = React.createClass({
     checkoffRef.child(entry['.key']).remove()
   }
 });
+
+App.propTypes = {
+  auth: React.PropTypes.object.isRequired
+}
 
 export default App

@@ -16,7 +16,7 @@ class Queue extends Component {
   }
 
   _renderDelete(e) {
-    if (this.props.admin) {
+    if (this.props.admin || this.props.uid === e.uid) {
       return <button onClick={this.props.onDelete.bind(null, e)}>x</button>
     }
   }
@@ -25,7 +25,8 @@ class Queue extends Component {
 Queue.propTypes = {
   admin: React.PropTypes.bool,
   onDelete: React.PropTypes.func,
-  entries: React.PropTypes.array.isRequired
+  entries: React.PropTypes.array.isRequired,
+  uid: React.PropTypes.string.isRequired
 }
 
 export default Queue
