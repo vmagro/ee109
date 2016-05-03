@@ -9,7 +9,7 @@ class Queue extends Component {
     return (
       <div>
         {this.props.entries.map((e) => {
-          return <div key={e['.key']}>{e.name} {this._renderDelete(e)}</div>
+          return <div key={e['.key']} style={{fontSize: 20}}>{e.name} {this._renderDelete(e)}</div>
         })}
       </div>
     )

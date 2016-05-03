@@ -12,7 +12,7 @@ var scp = require('gulp-scp2');
 
 gulp.task("webpack", ['clean'], function () {
   return gulp.src('app/main.js')
-    .pipe(gulpWebpack(webpackProdConfig))
+    .pipe(gulpWebpack(webpackConfig))
     .pipe(gulp.dest('dist/'));
 });
 

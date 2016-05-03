@@ -12,7 +12,7 @@ const App = require('./components/App')
 let history = createBrowserHistory()
 
 const user = window.localStorage['user']
-if (!user) {
+if (!user || user === 'undefined') {
   let ref = new Firebase('https://ee109.firebaseio.com')
   ref.authAnonymously(function (err, authData) {
     window.localStorage['user'] = JSON.stringify(authData)
