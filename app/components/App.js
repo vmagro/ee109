@@ -26,6 +26,7 @@ const App = React.createClass({
       const isAdmin = this.state.users[this.props.auth.uid].admin;
       return (
         <div>
+          <h1>https://vinnie.io/ee109</h1>
           <SignupForm onSubmit={this.onSubmit}/>
           <div className={styles.queueWrapper}>
             <div className={styles.queue}>
@@ -50,6 +51,7 @@ const App = React.createClass({
     else {
       return (
         <div>
+          <h1>https://vinnie.io/ee109</h1>
           <input placeholder="Your name" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})}/>
           <button onClick={this._submitName}>Login</button>
         </div>
