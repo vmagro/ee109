@@ -1,0 +1,10 @@
+.queueWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.queue {
+  display: flex;
+  flex-direction: column;
+}

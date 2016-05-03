@@ -4,11 +4,13 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
+    "firebase": "^2.4.2",
     "history": "^1.17.0",
     "react": "~0.14.3",
     "react-addons-css-transition-group": "^0.14.3",
     "react-dom": "^0.14.3",
-    "react-router": "~1.0.3"
+    "react-router": "~1.0.3",
+    "reactfire": "^0.7.0"
   },
   "devDependencies": {
     "babel-core": "^6.3.26",

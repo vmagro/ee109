@@ -68,8 +68,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.IgnorePlugin(new RegExp('react-native')),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
-    require('./write-index-html')
+    new webpack.optimize.UglifyJsPlugin()
   ]
 
 };
